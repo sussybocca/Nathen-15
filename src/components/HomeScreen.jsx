@@ -1,21 +1,41 @@
-import React from "react";
+// src/components/HomeScreen.jsx
+import React, { useEffect, useState } from "react";
+import { loadApps } from "../utils/storage";
 
-const HomeScreen = ({ apps, openApp }) => {
+const HomeScreen = ({ openApp }) => {
+  const [apps, setApps] = useState([]);
+
+  useEffect(() => {
+    loadApps().then(setApps);
+  }, []);
+
   return (
-    <div className="home-screen">
-      {apps.length === 0 && <p>No apps installed. Open Dev Console to create one!</p>}
-      <div className="app-grid">
-        {apps.map((app) => (
-          <div
-            key={app.id}
-            className="app-icon"
-            onClick={() => openApp(app.component, app.name)}
-          >
-            <div className="app-logo">{app.logo}</div>
-            <div className="app-name">{app.name}</div>
-          </div>
-        ))}
-      </div>
+    <div
+      className="home-screen"
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "10px",
+        gap: "10px",
+        height: "100%",
+      }}
+    >
+      {apps.map((app) => (
+        <button
+          key={app.id}
+          onClick={() => openApp(app.component, app.name)}
+          style={{
+            flex: "1 1 40%",
+            minWidth: "120px",
+            minHeight: "60px",
+            fontSize: "1rem",
+          }}
+        >
+          {app.emoji} {app.name}
+        </button>
+      ))}
     </div>
   );
 };
