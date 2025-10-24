@@ -1,48 +1,48 @@
+// src/apps/DevConsole.jsx
 import React, { useState } from "react";
-import EmojiLogoBuilder from "../components/EmojiLogoBuilder";
-import { saveData, loadData } from "../utils/storage";
+import { saveApp } from "../utils/storage";
 
 const DevConsole = ({ onAppCreated }) => {
-  const [appName, setAppName] = useState("");
-  const [code, setCode] = useState("");
-  const [logo, setLogo] = useState({ logo: "📦", color: "#fff" });
+  const [name, setName] = useState("");
+  const [emoji, setEmoji] = useState("🆕");
 
-  const createApp = async () => {
-    if (!appName || !code) return alert("App name and code required!");
+  const createApp = () => {
+    if (!name) return;
+
+    // Simple placeholder component for user app
+    const component = () => <div style={{ padding: "10px" }}>This is {name}</div>;
+
     const newApp = {
       id: Date.now(),
-      name: appName,
-      component: () => eval(code),
-      logo: logo.logo,
-      color: logo.color,
+      name,
+      emoji,
+      component,
     };
-    const existing = (await loadData("apps")) || [];
-    existing.push(newApp);
-    await saveData("apps", existing);
-    if (onAppCreated) onAppCreated(newApp);
-    alert(`${appName} created!`);
-    setAppName("");
-    setCode("");
+
+    saveApp(newApp);
+    onAppCreated && onAppCreated(newApp); // update HomeScreen dynamically
+    setName("");
+    setEmoji("🆕");
   };
 
   return (
-    <div>
-      <h2>Dev Console - Create App</h2>
+    <div style={{ padding: "10px" }}>
+      <h2>DevConsole / App Builder</h2>
       <input
         type="text"
         placeholder="App Name"
-        value={appName}
-        onChange={(e) => setAppName(e.target.value)}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        style={{ marginRight: "10px" }}
       />
-      <textarea
-        placeholder="Enter JSX code (returns JSX component)"
-        value={code}
-        onChange={(e) => setCode(e.target.value)}
-        rows={8}
-        style={{ width: "100%", marginTop: "10px" }}
+      <input
+        type="text"
+        placeholder="Emoji"
+        value={emoji}
+        onChange={(e) => setEmoji(e.target.value)}
+        style={{ width: "50px", textAlign: "center" }}
       />
-      <EmojiLogoBuilder onSelect={setLogo} />
-      <button onClick={createApp} style={{ marginTop: "10px" }}>
+      <button onClick={createApp} style={{ marginLeft: "10px" }}>
         Create App
       </button>
     </div>
