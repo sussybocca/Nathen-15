@@ -1,1 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nathen OS</title>
 
+    <!-- Optional: favicon -->
+    <link rel="icon" href="/cursor.png" type="image/png" />
+    
+    <!-- Basic styling -->
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #1e1e1e;
+        color: white;
+        overflow: hidden;
+        cursor: url('/cursor.png'), auto;
+      }
+
+      #root {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- React app will mount here -->
+    <div id="root"></div>
+
+    <!-- Vite will automatically inject the compiled JS -->
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
